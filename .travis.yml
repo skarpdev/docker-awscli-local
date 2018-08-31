@@ -1,19 +1,18 @@
+language: generic
 sudo: true
 dist: trusty
 jobs:
   include:
   - stage: build docker image
     script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "${DOCKER_USER}" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "nover" --password-stdin
     - docker build -t awscli-local .
     - docker images
     - REV_COUNT=`git rev-list HEAD --count`
-    - docker tag ${DOCKER_IMAGE_NAME} ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:${REV_COUNT}
-    - docker tag ${DOCKER_IMAGE_NAME} ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:latest
-    - docker push ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:${REV_COUNT}
-    - docker push ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:latest
+    - docker tag awscli-local skarpdev/awscli-local:${REV_COUNT}
+    - docker tag awscli-local skarpdev/awscli-local:latest
+    - docker push skarpdev/awscli-local:${REV_COUNT}
+    - docker push skarpdev/awscli-local:latest
 env:
   secure: IZHbV3xl2/8wA5gcfdx18wiW4ZpAqX1/uYYzwq/Gy59GXf0/+gPcDSm98lbrIxTcZZ4Q7ZNHK7QWa2OMZZhIZkvQRtPdXKCvMsd2ZxztM9fyB9YsYbEdg3P73PCOV5Wi1SJ7muGs9YPRZbIemuzlImhu5PUKjJ5jERo6ZpriqqAN89To6mPco6Cv7u3+d1c0ZnifzqNMonbSh2M9JrWXcTf3assVP+IXyj0z/dPac/YyMz/yEzvBbdataGc59e5zdb7a5RmPNqpw4NZUemhy7Z/5iLooClxuIibCy270zH38e/lTT+c+M7fBTfp4KBp1ownvSiL1oFUgqpevxp8r9TN9ezhUVpIkLgVJLZlGGYMzXsTksoGTHqI8L4sOW1nqkObJNgxnQaRT48G2q8KjystjOcFv1sm359eyO6s4aW1i2g17/7ji8TRyiu5H4LQjuE6E9qa2X5IVQhfRRSXihnL1R/uabq3KBbfeuX0gouxo+tLCm3xY1mV1mPw/3o9ONeMlMUWyGgBg0SC3yvrMJBpm7H4RlwsQrWIqbcCteLYlyEFv4yxmv7BoHyUBei43ZL/9Fgqkl+9PyFF9Mkopsx2hxOauDycll8O5s8fFJilaCKEoNKt3LcltQgV3Rv6mT6jhnkUAqMffIz8PEuNMwCTmLiHOkHownC3zKml4msQ=
-  DOCKER_IMAGE_NAME: 'awscli-local'
-  DOCKER_REPO: 'skarpdev'
-  DOCKER_USER: 'nover'
+  
